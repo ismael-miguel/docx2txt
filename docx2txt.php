@@ -23,13 +23,13 @@
 		trigger_error( 'The class DOMDocument is required. Please, check if xml is enabled, or add the parameter --enable-libxml. If not, check if you have libxml installed', E_USER_ERROR );
 	}
 	
-	$args = getopt('f::bt::',array('file::','br','tmp_path::','base64'));
+	$args = getopt( 'f::bt::', array( 'file::', 'br', 'tmp_path::', 'base64' ) );
 	
 	if( isset( $args['f'] ) || isset( $args['file'] ) )
 	{
 		$file = isset( $args['f'] ) ? $args['f'] : $args['file'];
 	}
-	else if( ( $stdin = fopen( 'php://stdin', 'rb' ) ) && stream_set_blocking( $stdin, 0 ) && fread( $stdin, 1) )
+	else if( ( $stdin = fopen( 'php://stdin','rb' ) ) && stream_set_blocking( $stdin, 0 ) && fread( $stdin, 1) )
 	{
 		//we read one byte, we must read that byte again
 		rewind( $stdin );
