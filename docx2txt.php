@@ -76,9 +76,6 @@
 		
 		fclose( $stdin );
 		fclose( $tmp_file );
-		
-		$tmp_used = true;
-		
 	}
 	else
 	{
@@ -111,30 +108,13 @@
 			}
 			
 			$zip->close();
-			
-			if( $tmp_used )
-			{
-				unlink( $file );
-			}
 		}
 		else
 		{
-			
-			if( $tmp_used )
-			{
-				@unlink( $file );
-			}
-			
 			trigger_error( 'Invalid structure for the file "' . $file . '"', E_USER_ERROR );
 		}
 	}
 	else
 	{
-		
-		if( $tmp_used )
-		{
-			@unlink( $file );
-		}
-		
 		trigger_error( 'Failed to open the file "' . $file . '"', E_USER_ERROR );
 	}
