@@ -1,5 +1,19 @@
 <?php
 	
+	if( version_compare( PHP_VERSION, '5.3.0', '<' ) )
+	{
+		trigger_error( 'PHP5.3 and above is required. You currently have the version ' . PHP_VERSION, E_USER_ERROR );
+	}
+	if( !class_exists( '\ZipArchive' ) )
+	{
+		trigger_error( 'The class ZipArchive is required. Check if PECL 1.0 is installed properly', E_USER_ERROR );
+	}
+	if( !class_exists( '\DOMDocument' ) )
+	{
+		trigger_error( 'The class DOMDocument is required. Please, check if xml is enabled, or add the parameter --enable-libxml. If not, check if you have libxml installed', E_USER_ERROR );
+	}
+	
+	
 	if( $args[1] )
 	{
 		$file = $args[1];
@@ -18,7 +32,7 @@
 			$file = tempnam( '/tmp', 'x2T' );
 		}
 		
-		//keeping compatibility with older versions
+		//avoids syntax errors with old versions, to allow to warn that php 5.3 is required
 		register_shutdown_function( create_function( '$file', 'unlink( $file );' ), $file );
 		
 		//without b, windows will interpret it as text
