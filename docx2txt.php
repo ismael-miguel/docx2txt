@@ -7,7 +7,7 @@
 	else if( ( $stdin = fopen( 'php://stdin','rb' ) ) && stream_set_blocking( $stdin, 0 ) && fread( $stdin, 1) )
 	{
 		//we read one byte, we must read that byte again
-		fseek( $stdin, 0 );
+		rewind( $stdin );
 		
 		if( strtoupper( substr( PHP_OS, 0, 3 ) ) === 'WIN' )
 		{
@@ -24,7 +24,11 @@
 		//without b, windows will interpret it as text
 		$tmp_file = fopen( $file, 'w+b' );
 		
-		fwrite( $tmp_file, fread( $stdin ) );
+		while( !feof( $stdin ) )
+		{
+			//usually attribution units are 4kb long, or 1024*4 bytes
+			fwrite( $tmp_file, fread( $stdin, 1024*4 ) );
+		}
 		
 		fclose( $stdin );
 		fclose( $tmp_file );
